@@ -18,7 +18,24 @@
 		</div>
 
 		<script>
-			chargeObj = {
+			var appKey = "e5643527-69ff-4c65-b175-0f8da11bd3dd";
+			var accountId = "ac_292662";
+			var username =  "deccan";
+			function doInitialize(){
+				ChargeAPI.initialize(appKey, accountId, username, function(res){
+				   console.log("initialize call response->", res);
+				});
+			}
+
+
+			var chargeId = "ch_160524002637420340";
+			function doViewCharge(){
+				ChargeAPI.viewCharge(chargeId, function(res){
+					console.log("view charge call response->", res);
+				});
+			}
+
+			var chargeObj = {
 				customer:{
 					name:"abhijeet",
 					mobileNo:"7829298460",
@@ -31,41 +48,25 @@
 				amount:5,
 				dateTime:"24-05-2016 12:25:01"
 			};
-			var txnId;
-
-			function doInitialize(){
-				ChargeAPI.initialize("e5643527-69ff-4c65-b175-0f8da11bd3dd","ac_292662","deccan", function(res){
-				   console.log("init res", res);
-				});
-				console.log("inside init");
-			}
-			function doViewCharge(){
-				console.log("inside doGetCharge");
-				ChargeAPI.viewCharge("ch_160524002637420340", function(res){
-					
-					console.log("res-->", res);
-
-				});
-			}
 			function doCreateCharge(){
-				console.log("inside doCreateCharge");
 				ChargeAPI.createCharge(chargeObj, function(res){
-					console.log("createcharge transaction response", res);
+					console.log("createCharge call response->", res);
 				})
 			}
-			function doWalletTransaction(){
 
-				ChargeAPI.walletTransaction("mobikwik", chargeObj, "ch_160513052717517888", function(res){
-					console.log("wallet transaction response", res);
+			var walletProvider = "mobikwik";
+			function doWalletTransaction(){
+				ChargeAPI.walletTransaction(walletProvider, chargeObj, chargeId, function(res){
+					console.log("initiate wallet transaction call response->", res);
 				})
-				console.log("inside doWalletTransaction");
 			}
+
+			var transactionId = "160513124819513E015206343";
+			var OTP = "814306";
 			function doConfirmWalletTransaction(){
-			
-				ChargeAPI.confirmWalletTransaction("160513124819513E015206343","814306", function(res){
-					console.log("confirm wallet transaction response", res);
+				ChargeAPI.confirmWalletTransaction(transactionId, OTP, function(res){
+					console.log("confirm wallet transaction call response->", res);
 				})
-				console.log("inside doConfirmWalletTransaction");
 			}
 		</script>
 	</body>
