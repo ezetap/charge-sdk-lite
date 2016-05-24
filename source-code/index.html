@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width">
+	  <title>JS Bin</title>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	  <script type="text/javascript" src="ChargeAPI.js"></script>
+	</head>
+	<body>
+	    <button onclick="doInitialize()">initialize sdk</button>
+	    <button onclick="doViewCharge()">getCharge</button>
+		<button onclick="doCreateCharge()">createCharge</button>
+		<button onclick="doWalletTransaction()">walletTransaction</button>
+		<button onclick="doConfirmWalletTransaction()">confirmWalletTransaction</button>
+
+		<div id="result">
+		</div>
+
+		<script>
+			chargeObj = {
+				customer:{
+					name:"abhijeet",
+					mobileNo:"7829298460",
+					emailId:"abhijeet17890@gmail.com"
+				},
+				tag:[],
+				item:[],
+				referenceType:"test-charge-11",
+				referenceId:"test-charge-11",
+				amount:5,
+				dateTime:"24-05-2016 12:25:01"
+			};
+			var txnId;
+
+			function doInitialize(){
+				ChargeAPI.initialize("e5643527-69ff-4c65-b175-0f8da11bd3dd","ac_292662","deccan", function(res){
+				   console.log("init res", res);
+				});
+				console.log("inside init");
+			}
+			function doViewCharge(){
+				console.log("inside doGetCharge");
+				ChargeAPI.viewCharge("ch_160524002637420340", function(res){
+					
+					console.log("res-->", res);
+
+				});
+			}
+			function doCreateCharge(){
+				console.log("inside doCreateCharge");
+				ChargeAPI.createCharge(chargeObj, function(res){
+					console.log("createcharge transaction response", res);
+				})
+			}
+			function doWalletTransaction(){
+
+				ChargeAPI.walletTransaction("mobikwik", chargeObj, "ch_160513052717517888", function(res){
+					console.log("wallet transaction response", res);
+				})
+				console.log("inside doWalletTransaction");
+			}
+			function doConfirmWalletTransaction(){
+			
+				ChargeAPI.confirmWalletTransaction("160513124819513E015206343","814306", function(res){
+					console.log("confirm wallet transaction response", res);
+				})
+				console.log("inside doConfirmWalletTransaction");
+			}
+		</script>
+	</body>
+</html>
