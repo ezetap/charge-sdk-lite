@@ -18,9 +18,9 @@
 		</div>
 
 		<script>
-			var appKey = "e5643527-69ff-4c65-b175-0f8da11bd3dd";
-			var accountId = "ac_292662";
-			var username =  "deccan";
+			var appKey = "sample-app-key"; // give a valid appKey 
+			var accountId = "sample-account-id"; // give a valid accountId 
+			var username =  "sample-user-name"; // give a valid user name
 			function doInitialize(){
 				ChargeAPI.initialize(appKey, accountId, username, function(res){
 				   console.log("initialize call response->", res);
@@ -28,40 +28,28 @@
 			}
 
 
-			var chargeId = "ch_160524002637420340";
+			var chargeId = "sample-chargeId"; // give a valid chargeId
 			function doViewCharge(){
 				ChargeAPI.viewCharge(chargeId, function(res){
 					console.log("view charge call response->", res);
 				});
 			}
 
-			var chargeObj = {
-				customer:{
-					name:"abhijeet",
-					mobileNo:"7829298460",
-					emailId:"abhijeet17890@gmail.com"
-				},
-				tag:[],
-				item:[],
-				referenceType:"test-charge-11",
-				referenceId:"test-charge-11",
-				amount:5,
-				dateTime:"24-05-2016 12:25:01"
-			};
+			var chargeObj = {}  // give a valid charge obj
 			function doCreateCharge(){
 				ChargeAPI.createCharge(chargeObj, function(res){
 					console.log("createCharge call response->", res);
 				})
 			}
 
-			var walletProvider = "mobikwik";
+			var walletProvider = "sample-wallet-provider"; // give a valid wallet provider
 			function doWalletTransaction(){
 				ChargeAPI.walletTransaction(walletProvider, chargeObj, chargeId, function(res){
 					console.log("initiate wallet transaction call response->", res);
 				})
 			}
 
-			var transactionId = "160513124819513E015206343";
+			var transactionId = "sample-transactionId"; // give a valid transaction Id
 			var OTP = "814306";
 			function doConfirmWalletTransaction(){
 				ChargeAPI.confirmWalletTransaction(transactionId, OTP, function(res){
