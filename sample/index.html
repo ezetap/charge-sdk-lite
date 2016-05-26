@@ -7,55 +7,163 @@
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	  <script type="text/javascript" src="ChargeAPI.min.js"></script>
 	</head>
+
 	<body>
-	    <button onclick="doInitialize()">initialize sdk</button>
-	    <button onclick="doViewCharge()">getCharge</button>
-		<button onclick="doCreateCharge()">createCharge</button>
-		<button onclick="doWalletTransaction()">walletTransaction</button>
-		<button onclick="doConfirmWalletTransaction()">confirmWalletTransaction</button>
+	    <div>
+	    	<button onclick="doInitialize()">Initialize sdk</button>
+	    </div>
+	   	<div>
+	    	<button onclick="doViewCharge()">ViewCharge</button>
+	    </div>
+	   	<div>
+			<button onclick="doCreateCharge()">Create Charge</button>
+		</div>
+	   	<div>
+			<button onclick="doCancelCharge()">Cancel Charge</button>
+		</div>
+	   	<div>
+			<button onclick="doWalletTransaction()">Wallet Transaction</button>
+		</div>
+	   	<div>
+			<button onclick="doConfirmPin()">Confirm PIN Transaction</button>
+		</div>
+	   	<div>
+			<button onclick="doRemoteTransaction()">Remote Pay</button>
+		</div>
+	   	<div>
+			<button onclick="doSearchCharges()">Search Charges</button>
+		</div>
+	   	<div>
+			<button onclick="doViewTransaction()">View transaction</button>
+		</div>
+	   	<div>
+			<button onclick="doClose()">Close sdk</button>
+		</div>
 
 		<div id="result">
 		</div>
 
 		<script>
-			var appKey = "sample-app-key"; // give a valid appKey 
-			var accountId = "sample-account-id"; // give a valid accountId 
-			var username =  "sample-user-name"; // give a valid user name
+
+			var initReqObj = {
+				appKey : "sample-app-key", // give a valid appKey
+				accountId : "sample-account-id", // give a valid accountId
+				userName :  "sample-user-name", // give a valid user name
+				appMode: "valid-app-mode" // give a valid app mode
+			}
+
 			function doInitialize(){
-				ChargeAPI.initialize(appKey, accountId, username, function(res){
+				ChargeAPI.initialize(initReqObj,  function(res){
 				   console.log("initialize call response->", res);
 				});
 			}
 
+			function doClose(){
+				ChargeAPI.close(function(res){
+					console.log("close call response->", res);
+				});
+			}
 
-			var chargeId = "sample-chargeId"; // give a valid chargeId
+
+			var viewChargeObj = {
+				chargeId : "sample-charge-id"  //give a valid charge Id
+			}
 			function doViewCharge(){
-				ChargeAPI.viewCharge(chargeId, function(res){
+				ChargeAPI.viewCharge(viewChargeObj, function(res){
 					console.log("view charge call response->", res);
 				});
 			}
 
-			var chargeObj = {}  // give a valid charge obj
+
+			var createChargeObj = {   
+				charge: {    //give a valid charge object
+					
+				}
+			}
 			function doCreateCharge(){
-				ChargeAPI.createCharge(chargeObj, function(res){
+				ChargeAPI.createCharge(createChargeObj, function(res){
 					console.log("createCharge call response->", res);
 				})
 			}
 
-			var walletProvider = "sample-wallet-provider"; // give a valid wallet provider
+			var cancelChargeObj = { 
+				chargeId : "sample-charge-id"  //give a valid charge Id
+			}
+			function doCancelCharge(){
+				ChargeAPI.cancelCharge(cancelChargeObj, function(res){
+					console.log("cancel charge call response->", res);
+				});
+			}
+
+
+			var walletTransactionObj = {
+				wallet:{
+					walletProvider: "sample-wallet-provider" // give a valid wallet provider
+				},
+				//either give a valid charge object or  a valid charge Id for wallet transaction, if both are present then charge Id will be taken for wallet transaction. If only charge Object is present then charge will be created first and wallet transaction will be taken against that charge.	
+				charge:{  //give a valid charge object
+				
+				},
+				chargeId:"sample-charge-id" //give a valid charge id
+
+			}
 			function doWalletTransaction(){
-				ChargeAPI.walletTransaction(walletProvider, chargeObj, chargeId, function(res){
+				ChargeAPI.walletTransaction(walletTransactionObj,  function(res){
 					console.log("initiate wallet transaction call response->", res);
 				})
 			}
 
-			var transactionId = "sample-transactionId"; // give a valid transaction Id
-			var OTP = "814306";
-			function doConfirmWalletTransaction(){
-				ChargeAPI.confirmWalletTransaction(transactionId, OTP, function(res){
-					console.log("confirm wallet transaction call response->", res);
+
+			var confirmPinObj = {
+				txnId : "sample-transaction-id", // give a valid transaction Id
+				walletOTP : "sample-pin" /// give a valid PIN
+			}
+			function doConfirmPin(){
+				ChargeAPI.confirmPin(confirmPinObj, function(res){
+					console.log("confirmPin call response->", res);
+				})
+			}
+
+
+			//either give a valid charge object or  a valid charge Id for remote pay, if both are present then charge Id will be taken for remote pay. If only charge Object is present then charge will be created first and remote pay will be initiated against that charge.
+			var remoteTransactionObj = {
+				charge:{   //give a valid charge object
+					
+				},
+				chargeId: "sample-charge-id" //give a valid charge id
+			}
+			function doRemoteTransaction(){
+				ChargeAPI.remoteTransaction(remoteTransactionObj,  function(res){
+					console.log("remoteTransaction call response->", res);
+				})
+			}
+
+			var searchChargesObj = {
+				status: "PENDING", //give valid status value (optional)
+				date: "26-05-2016"  //give date in dd-mm-yyyy format (optional)
+			}
+
+			function doSearchCharges(){
+			    //If you dont want to pass status and date in request both then you have to pass empty object in request with callback
+				ChargeAPI.searchCharges(searchChargesObj,  function(res){
+					console.log("searchCharges call response->", res);
+				})
+			}
+
+
+			var viewTransactionObj = {
+				txnId: "sample-transaction-id" //give a valid transaction id
+			}
+			function doViewTransaction(){
+				ChargeAPI.viewTransaction(viewTransactionObj,  function(res){
+					console.log("viewTransaction call response->", res);
 				})
 			}
 		</script>
+		<style>
+			div{
+				margin-bottom: 5px;
+			}
+		</style>
 	</body>
 </html>
